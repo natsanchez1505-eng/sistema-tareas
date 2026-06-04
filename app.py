@@ -1,4 +1,5 @@
 from flask import Flask, request
+import os
 
 app = Flask(__name__)
 
@@ -14,6 +15,8 @@ def inicio():
         <input name='tarea'>
         <button>Agregar</button>
     </form>
+
+    <h2>Tareas Registradas</h2>
     """
 
     for tarea in tareas:
@@ -21,8 +24,10 @@ def inicio():
 
     return html
 
+
 @app.route('/agregar', methods=['POST'])
 def agregar():
+
     tarea = request.form['tarea']
     tareas.append(tarea)
 
@@ -32,5 +37,7 @@ def agregar():
     </script>
     """
 
+
 if __name__ == '__main__':
-    app.run()
+    puerto = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=puerto)
